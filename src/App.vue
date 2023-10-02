@@ -1,26 +1,31 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <side-component v-if="isLogged" />
+    <head-component v-if="isLogged" />
+    <router-view></router-view>
+    <div id="loader"></div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import SideComponent from "@/components/SideComponent.vue";
+import HeadComponent from "@/components/HeadComponent.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    SideComponent,
+    HeadComponent,
+  },
+  computed: {
+    isLogged() {
+      const session = this.$store.getters.isAuthenticated;
+      return session && this.$route.name != "home";
+    },
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import "./assets/css/styles.css";
+@import "./assets/css/font.css";
 </style>
